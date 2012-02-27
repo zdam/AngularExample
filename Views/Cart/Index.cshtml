@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<style>
+.ng-invalid { border: 1px solid red; } 
+body { font-family: Arial,Helvetica,sans-serif; }
+body, td, th { font-size: 14px; margin: 0; }
+table { border-collapse: separate; border-spacing: 2px; display: table; margin-bottom: 0; margin-top: 0; -moz-box-sizing: border-box; text-indent: 0; }
+a:link, a:visited, a:hover { color: #5D6DB6; text-decoration: none; }
+.error { color: red; }    
+</style>
+<script>
+    function CartForm() {
+        this.invoice = { items: [{ qty: 1, product: { name: '', price: 0.00}}] };
+
+        // Data taken from KnockoutJs cart example
+        this.sampleProductCategories = sampleProductCategories;
+    }
+
+    CartForm.prototype = {
+
+        addItem: function () {
+            this.invoice.items.push({ qty: 1, product: { name: '', price: 0.00} });
+        },
+
+        removeItem: function (index) {
+            this.invoice.items.splice(index, 1);
+        },
+
+        total: function () {
+            var total = 0;
+            angular.forEach(this.invoice.items, function (item) {
+                total += item.qty * item.product.price;
+            })
+            return total;
+        }
+    };
+</script>
+
+<div ng:controller="CartForm">
+
+    <table>
+        <tr>
+            <th>Qty</th>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+        <tr ng:repeat="item in invoice.items">
+            <td><input type="number" ng:model="item.qty" ng:required></td>
+            <td>
+                <select ng:model="category" ng:options="c.name for c in sampleProductCategories" ></select>
+                <select ng:model="item.product" ng:options="p.name for p in category.products" ></select>
+            </td>
+            <td><label size="6">{{item.product.price}}</label></td>
+            <td>{{item.qty * item.product.price | currency}}</td>
+            <td>
+                [<a href ng:click="removeItem($index)">X</a>]
+            </td>
+        </tr>
+        <tr>
+            <td><a href ng:click="addItem()">add item</a></td>
+            <td></td>
+            <td>Total:</td>
+            <td>{{total() | currency}}</td>
+        </tr>
+    </table>
+    <hr/>
+    DebugView={{invoice}}
+        <button ng:click="foo()" >Test stuff</button>
+</div>
