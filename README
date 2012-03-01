@@ -1,0 +1,22 @@
+
+This demonstrates using Angular with an asp.net mvc 3 back-end.
+
+Dependencies: Visual Studio 2010
+
+Load the .sln into Visual Studio 2010 and hit F5 to run.
+
+http://localhost/AngularExample/ currently links to 2 examples, a shopping cart similar to the Knockout shopping cart, and a another example which is a crud form backed by a restful service, powered by asp.net mvc.
+
+The restful endpoints are enabled by using the techniques described in this article http://www.codeproject.com/Articles/233572/Build-truly-RESTful-API-and-website-using-same-ASP that shows how to serve json, xml, or html from the same restful endpoints.
+
+Click on the names to edit, click the X to delete, or you can add new entries.
+
+Interesting code is 
+
+Controllers/ExampleController.cs
+Views/Example/Index.cshtml
+
+
+
+
+

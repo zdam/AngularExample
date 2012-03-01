@@ -1,80 +1,85 @@
 ﻿@{
     ViewBag.Title = "Index";
+
 }
 
 <h2>Index</h2>
 
- <script>
-     function UserForm($resource) {
+<script>
 
-         this.exampleResource = $resource('http://localhost/AngularExample/Example/:entityId', { entityId: '@@Id' });
-         this.allRecords = [];
-         this.clearForm();
-         this.loadAll();
-     }
+    var initialData = @(new HtmlString(ViewData["JsonModel"].ToString()));
+    
+    function UserForm($resource) {
 
-     UserForm.prototype = {
+        this.exampleResource = $resource('http://localhost/AngularExample/Example/:entityId', { entityId: '@@Id' });
+        this.allRecords = [];
+        this.clearForm();
+        //this.loadAll();
+        this.allRecords = initialData;
+    }
 
-         loadAll: function () {
-             this.allRecords = this.exampleResource.query();
-         },
+    UserForm.prototype = {
 
-         loadOne: function (id) {
-             var self = this;
-             this.form = this.exampleResource.get({ entityId: id }, function () {
-                 self.master = angular.copy(self.form);
-             });
-         },
+        loadAll: function () {
+            this.allRecords = this.exampleResource.query();
+        },
 
-         save: function () {
-             var self = this;
-             self.master = self.form;
+        loadOne: function (id) {
+            var self = this;
+            this.form = this.exampleResource.get({ entityId: id }, function () {
+                self.master = angular.copy(self.form);
+            });
+        },
 
-             self.form.$save(function (returnedInfo, responseHeaders) {
-                 //figure out if we have to add to our list or update an existing list item
-                 var i = self.arrayIndexOf(self.allRecords, function (obj) {
-                     return obj.Id === returnedInfo.Id;
-                 })
-                 i > -1 ? self.allRecords[i] = returnedInfo : self.allRecords.push(returnedInfo);
-                 self.cancel(); // needed so we can do change tracking
-             });
-         },
+        save: function () {
+            var self = this;
+            self.master = self.form;
 
-         cancel: function () {
-             this.form = angular.copy(this.master);
-         },
+            self.form.$save(function (returnedInfo, responseHeaders) {
+                //figure out if we have to add to our list or update an existing list item
+                var i = self.arrayIndexOf(self.allRecords, function(obj) {
+                    return obj.Id === returnedInfo.Id;
+                });
+                i > -1 ? self.allRecords[i] = returnedInfo : self.allRecords.push(returnedInfo);
+                self.cancel(); // needed so we can do change tracking
+            });
+        },
 
-         deleteOne: function (index) {
-             var toDelete = this.allRecords[index];
-             toDelete.$delete();
-             this.allRecords.splice(index, 1);
-         },
+        cancel: function () {
+            this.form = angular.copy(this.master);
+        },
 
-         isCancelDisabled: function () {
-             return angular.equals(this.master, this.form);
-         },
+        deleteOne: function (index) {
+            var toDelete = this.allRecords[index];
+            toDelete.$delete();
+            this.allRecords.splice(index, 1);
+        },
 
-         isSaveDisabled: function () {
-             return this.myForm.$invalid || angular.equals(this.master, this.form);
-         },
+        isCancelDisabled: function () {
+            return angular.equals(this.master, this.form);
+        },
 
-         clearForm: function () {
-             this.form = new this.exampleResource();
-         },
+        isSaveDisabled: function () {
+            return this.myForm.$invalid || angular.equals(this.master, this.form);
+        },
 
-         // general helper, should go elsewhere
-         arrayIndexOf: function (a, fnc) {
-             if (!fnc || typeof (fnc) != 'function') {
-                 return -1;
-             }
-             if (!a || !a.length || a.length < 1) return -1;
-             for (var i = 0; i < a.length; i++) {
-                 if (fnc(a[i])) return i;
-             }
-             return -1;
-         }
-     };
- </script>
+        clearForm: function () {
+            this.form = new this.exampleResource();
+        },
+
+        // general helper, should go elsewhere
+        arrayIndexOf: function (a, fnc) {
+            if (!fnc || typeof (fnc) != 'function') {
+                return -1;
+            }
+            if (!a || !a.length || a.length < 1) return -1;
+            for (var i = 0; i < a.length; i++) {
+                if (fnc(a[i])) return i;
+            }
+            return -1;
+        }
+    };
+</script>
  
  
  <div ng:controller="UserForm">

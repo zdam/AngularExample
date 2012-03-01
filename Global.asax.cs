@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AngularExample.Infrastructure;
 using MvpRestApiLib.NogginBox.MvcExtras.Providers;
 
 namespace AngularExample
@@ -44,6 +45,8 @@ namespace AngularExample
             RegisterRoutes(RouteTable.Routes);
 
             ValueProviderFactories.Factories.Add(new XmlValueProviderFactory());
+
+            GlobalFilters.Filters.Add(new JsonViewModelGlobalAttribute());
         }
     }
 }

@@ -80,6 +80,7 @@
     <Compile Include="Infrastructure\EntityFrameworkContractResolver.cs" />
     <Compile Include="Infrastructure\HttpStatusCodeResult.cs" />
     <Compile Include="Infrastructure\JsonResult3.cs" />
+    <Compile Include="Infrastructure\JsonViewModelGlobalAttribute.cs" />
     <Compile Include="Infrastructure\XmlResult.cs" />
     <Compile Include="Infrastructure\XmlValueProviderFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
